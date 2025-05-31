@@ -1,13 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "my-node-app"
-        AWS_REGION = "us-east-1"
-        EKS_CLUSTER = "your-cluster-name"
-        STAGING_NAMESPACE = "staging"
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -17,49 +10,30 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker build -t $IMAGE_NAME:latest .'
-                }
+                sh 'docker build -t my-node-app .'
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    // Optional: Add real tests if available
-                    echo "Running dummy test"
-                    sh 'echo "Tests Passed"'
-                }
+                echo 'Running tests (dummy)'
+                sh 'echo "Tests Passed!"'
             }
         }
 
-        stage('Push to ECR (Optional)') {
+        stage('Deploy') {
             steps {
-                script {
-                    // Add AWS ECR push steps if using ECR
-                }
-            }
-        }
-
-        stage('Deploy to Kubernetes Staging') {
-            steps {
-                script {
-                    sh '''
-                    aws eks update-kubeconfig --name $EKS_CLUSTER --region $AWS_REGION
-                    kubectl apply -f k8s/deployment.yaml -n $STAGING_NAMESPACE
-                    kubectl rollout status deployment/my-node-app -n $STAGING_NAMESPACE
-                    '''
-                }
+                echo 'This is the deploy stage (not implemented yet).'
             }
         }
     }
 
     post {
         success {
-            echo 'Deployed to Staging successfully!'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo 'Deployment failed.'
+            echo 'Pipeline failed!'
         }
     }
 }
