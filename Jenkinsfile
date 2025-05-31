@@ -2,12 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/patilchandrakant435/simple-node-app-2.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 bat 'docker build -t my-node-app .'
