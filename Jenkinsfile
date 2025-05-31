@@ -4,20 +4,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/patilchandrakant435/simple-node-app-2.git'
+                git 'https://github.com/patilchandrakant435/simple-node-app-2.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t my-node-app .'
+                bat 'docker build -t my-node-app .'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo 'Running tests (dummy)'
-                sh 'echo "Tests Passed!"'
+                bat 'echo Tests Passed!'
             }
         }
 
